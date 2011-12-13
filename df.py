@@ -5,7 +5,7 @@ import json
 import codecs
 where = 'e:/pyTest/result.txt'
 
-template = '<areas id=\"%d\" version=\"%s\" code=\"%s\" name=\"%s\" parent=\"%s\" level=\"%s\"/>\r\n'  
+template = '<areas id=\"%d\" version=\"%s\" code=\"%s\" name=\"%s\" parent=\"%s\" level=\"%s\"/>\n'  
 
 result_str = ""
 
@@ -19,7 +19,7 @@ fc = f.read()
 
 f.close()
 
-js = json.loads(str(fc))
+js = json.loads(fc)
 
 for pro in js['province']:
     id = id+1
@@ -33,5 +33,5 @@ for pro in js['district']:
     id = id+1
     result_str += template % (id, '1', pro['code'][0:6], pro['name'], pro['code'][0:4] ,2)
 
-open(where, 'w').write(result_str)
+open(where, 'w').write(result_str.encode('utf8'))
 
