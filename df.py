@@ -31,20 +31,30 @@ js = json.loads(fc)
 for pro in js['province']:
     areas_id = areas_id + 1
     pro.update({"id":areas_id})
-    result += template1 % (pro['id'], '1', pro['code'], pro['name'])
+    result += template1 % (pro['id'], '1', pro['code'], pro['name'],pro['name'])
     
 for pro1 in js['city']:
     areas_id = areas_id + 1
     pro1.update({"id":areas_id})
-    result += template1 % (pro1['id'], '1', pro1['code'], pro1['name'])
+    for pro in js['province'] :
+        if pro['code'][0:2] == pro1['code'][0:2]:
+            name = pro['name'] + pro1['name']
+            result += template1 % (pro1['id'], '1', pro1['code'],pro1['name'], name)
+   
     
 for pro2 in js['district']:
     areas_id = areas_id + 1
     pro2.update({"id":areas_id})
-    result += template1 % (pro2['id'], '1', pro2['code'], pro2['name'])
+    for pro in js['province'] :
+        for pro1 in js['city']:
+            if pro['code'][0:2] == pro1['code'][0:2] and pro1['code'][2:4] == pro2['code'][2:4] and pro2['code'][0:2] == pro['code'][0:2]:
+                name = pro['name'] + pro1['name'] + pro2['name']
+                result += template1 % (pro2['id'], '1', pro2['code'],pro2['name'], name )
     
+
+
 #    È«¹úµÄ
-'''
+
 for pro in js['province']:
     areas_hi_id = areas_hi_id + 1
     name = pro['name']
@@ -107,32 +117,15 @@ for pro in js['province']:
                         if di['code'][0:2] == proCode:
                             areas_hi_id = areas_hi_id + 1
                             result2 += template2 % (areas_hi_id, '1', proId , di['id'])
-for pro in js['province']:
-    name = pro['name']
-    proId = pro['id']
+'''
 
 
 
 
 
-codecs.open(where, 'w', 'gbk').write(result)
-codecs.open(where2, 'w', 'gbk').write(result2)
+codecs.open(where, 'w', 'gbk').write(result + result2)
+
       
 
-
-
-'''
-for pro in js['province']:
-    id = id+1
-    result += template % (id, '1', pro['code'][0:2], pro['name'], '00', 0 )
-
-for pro in js['city']:
-    id = id+1
-    result += template % (id, '1', pro['code'][0:4], pro['name'], pro['code'][0:2] , 1)
-
-for pro in js['district']:
-    id = id+1
-    result += template % (id, '1', pro['code'][0:6], pro['name'], pro['code'][0:4] ,2)
-'''
 
 
